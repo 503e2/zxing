@@ -250,7 +250,11 @@ final class CameraConfigurationManager {
         Log.i(TAG, "No suitable FPS range?");
       } else {
         int[] currentFpsRange = new int[2];
-        parameters.getPreviewFpsRange(currentFpsRange);
+        try {
+          parameters.getPreviewFpsRange(currentFpsRange);
+        } catch (RuntimeException e) {
+          Log.i(TAG, "Error getting current PreviewFpsRange");
+        }
         if (!Arrays.equals(currentFpsRange, minimumSuitableFpsRange)) {
           Log.i(TAG, "Setting FPS range to " + Arrays.toString(minimumSuitableFpsRange));
           parameters.setPreviewFpsRange(minimumSuitableFpsRange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX],
